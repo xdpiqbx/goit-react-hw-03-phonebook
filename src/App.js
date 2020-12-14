@@ -18,18 +18,19 @@ class App extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const сurrentContacts = this.state.contacts;
-    const prevContacts = prevState.contacts;
+  // Надо ещё подумать
+  // componentDidUpdate(prevProps, prevState) {
+  //   const сurrentContacts = this.state.contacts;
+  //   const prevContacts = prevState.contacts;
 
-    if (сurrentContacts !== prevContacts) {
-      const contactsFromLocalstorage = localStorage.getItem('contacts');
-      localStorage.setItem(
-        'contacts',
-        JSON.stringify([...(JSON.parse(contactsFromLocalstorage) ?? [])]),
-      );
-    }
-  }
+  //   if (сurrentContacts !== prevContacts) {
+  //     const contactsFromLocalstorage = localStorage.getItem('contacts');
+  //     localStorage.setItem(
+  //       'contacts',
+  //       JSON.stringify([...(JSON.parse(contactsFromLocalstorage) ?? [])]),
+  //     );
+  //   }
+  // }
 
   getContact = newContact => {
     if (this.state.contacts) {
@@ -42,23 +43,23 @@ class App extends Component {
       }
     }
 
-    //    this.addContactToLocalstorage(newContact);
+    this.addContactToLocalstorage(newContact);
 
     this.setState(prevState => ({
       contacts: [newContact, ...(prevState.contacts ?? [])],
     }));
   };
 
-  // addContactToLocalstorage = contact => {
-  //   const contactsFromLocalstorage = localStorage.getItem('contacts');
-  //   localStorage.setItem(
-  //     'contacts',
-  //     JSON.stringify([
-  //       contact,
-  //       ...(JSON.parse(contactsFromLocalstorage) ?? []),
-  //     ]),
-  //   );
-  // };
+  addContactToLocalstorage = contact => {
+    const contactsFromLocalstorage = localStorage.getItem('contacts');
+    localStorage.setItem(
+      'contacts',
+      JSON.stringify([
+        contact,
+        ...(JSON.parse(contactsFromLocalstorage) ?? []),
+      ]),
+    );
+  };
 
   filterHandler = event => {
     const { value } = event.currentTarget;
