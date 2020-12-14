@@ -12,9 +12,23 @@ class App extends Component {
 
   componentDidMount() {
     const contactsFromLocalstorage = localStorage.getItem('contacts');
+
     this.setState({
       contacts: [...(JSON.parse(contactsFromLocalstorage) ?? [])],
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const сurrentContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (сurrentContacts !== prevContacts) {
+      const contactsFromLocalstorage = localStorage.getItem('contacts');
+      localStorage.setItem(
+        'contacts',
+        JSON.stringify([...(JSON.parse(contactsFromLocalstorage) ?? [])]),
+      );
+    }
   }
 
   getContact = newContact => {
@@ -28,23 +42,23 @@ class App extends Component {
       }
     }
 
-    this.addContactToLocalstorage(newContact);
+    //    this.addContactToLocalstorage(newContact);
 
     this.setState(prevState => ({
       contacts: [newContact, ...(prevState.contacts ?? [])],
     }));
   };
 
-  addContactToLocalstorage = contact => {
-    const contactsFromLocalstorage = localStorage.getItem('contacts');
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify([
-        contact,
-        ...(JSON.parse(contactsFromLocalstorage) ?? []),
-      ]),
-    );
-  };
+  // addContactToLocalstorage = contact => {
+  //   const contactsFromLocalstorage = localStorage.getItem('contacts');
+  //   localStorage.setItem(
+  //     'contacts',
+  //     JSON.stringify([
+  //       contact,
+  //       ...(JSON.parse(contactsFromLocalstorage) ?? []),
+  //     ]),
+  //   );
+  // };
 
   filterHandler = event => {
     const { value } = event.currentTarget;
@@ -95,5 +109,3 @@ class App extends Component {
 }
 
 export default App;
-
-//https://github.com/goitacademy/react-homework/tree/master/homework-02/phonebook
