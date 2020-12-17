@@ -18,19 +18,14 @@ class App extends Component {
     });
   }
 
-  // Надо ещё подумать
-  // componentDidUpdate(prevProps, prevState) {
-  //   const сurrentContacts = this.state.contacts;
-  //   const prevContacts = prevState.contacts;
+  componentDidUpdate(prevProps, prevState) {
+    const сurrentContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
 
-  //   if (сurrentContacts !== prevContacts) {
-  //     const contactsFromLocalstorage = localStorage.getItem('contacts');
-  //     localStorage.setItem(
-  //       'contacts',
-  //       JSON.stringify([...(JSON.parse(contactsFromLocalstorage) ?? [])]),
-  //     );
-  //   }
-  // }
+    if (сurrentContacts !== prevContacts) {
+      localStorage.setItem('contacts', JSON.stringify(сurrentContacts))
+    }
+  }
 
   getContact = newContact => {
     if (this.state.contacts) {
@@ -43,22 +38,9 @@ class App extends Component {
       }
     }
 
-    this.addContactToLocalstorage(newContact);
-
     this.setState(prevState => ({
       contacts: [newContact, ...(prevState.contacts ?? [])],
     }));
-  };
-
-  addContactToLocalstorage = contact => {
-    const contactsFromLocalstorage = localStorage.getItem('contacts');
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify([
-        contact,
-        ...(JSON.parse(contactsFromLocalstorage) ?? []),
-      ]),
-    );
   };
 
   filterHandler = event => {
